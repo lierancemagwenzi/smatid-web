@@ -26,7 +26,7 @@
 
   <h2>How it fits together</h2>
   <ol class="steps">
-    <li><strong>Get an access token</strong>Smatid sets up your account and emails you a token. It’s shown once and only you hold it.</li>
+    <li><strong>Sign up and get a token</strong><RouterLink to="/register">Create an account</RouterLink> for a free trial, then create your API token in the portal. It’s shown once and only you hold it.</li>
     <li><strong>Call a check</strong>Company and sanctions checks answer straight away. A liveness check gives you a link to send the person.</li>
     <li><strong>Act on the result</strong>Each answer is clear (verified or not, a hit or not, passed or failed) and says where it came from, so your team can review it.</li>
   </ol>

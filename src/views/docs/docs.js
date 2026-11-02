@@ -3,6 +3,7 @@ export const SECTIONS = [
   {group: 'Getting started', slug: 'introduction', title: 'Introduction'},
   {group: 'Getting started', slug: 'quickstart', title: 'Quick start'},
   {group: 'Getting started', slug: 'authentication', title: 'Authentication'},
+  {group: 'Getting started', slug: 'credits', title: 'Credits & billing'},
   {group: 'Getting started', slug: 'errors', title: 'Errors'},
   {group: 'Getting started', slug: 'modules', title: 'Modules'},
   {group: 'Checks', slug: 'company', title: 'Company registration'},

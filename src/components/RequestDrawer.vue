@@ -19,7 +19,8 @@
               <span>{{ detail.label }}</span>
             </div>
             <dl class="facts">
-              <div><dt>Client</dt><dd><RouterLink :to="`/admin/clients/${detail.client_id}`" @click="$emit('close')">{{ detail.client_name || `#${detail.client_id}` }}</RouterLink></dd></div>
+              <div v-if="admin"><dt>Client</dt><dd><RouterLink :to="`/admin/clients/${detail.client_id}`" @click="$emit('close')">{{ detail.client_name || `#${detail.client_id}` }}</RouterLink></dd></div>
+              <div v-else><dt>Credits used</dt><dd>{{ detail.credits_charged }}</dd></div>
               <div><dt>Check</dt><dd>{{ checkName(detail.check_type) }}</dd></div>
               <div><dt>Time</dt><dd>{{ formatDateTime(detail.created_at) }}</dd></div>
               <div><dt>Took</dt><dd>{{ formatDuration(detail.duration_ms) }}</dd></div>
@@ -45,7 +46,7 @@
               </ul>
             </div>
 
-            <LivenessFrames v-if="detail.liveness_session_id" :session-id="detail.liveness_session_id" />
+            <LivenessFrames v-if="admin && detail.liveness_session_id" :session-id="detail.liveness_session_id" />
 
             <JsonBlock title="What was searched" :value="detail.request" />
             <JsonBlock title="Response" :value="detail.response" />
@@ -64,7 +65,12 @@ import OutcomeBadge from './OutcomeBadge.vue';
 import JsonBlock from './JsonBlock.vue';
 import LivenessFrames from './LivenessFrames.vue';
 
-const props = defineProps({id: {type: [Number, String], default: null}});
+// The portal passes its own `fetcher` (the client's own requests) and admin=false.
+const props = defineProps({
+  id: {type: [Number, String], default: null},
+  fetcher: {type: Function, default: null},
+  admin: {type: Boolean, default: true},
+});
 const emit = defineEmits(['close']);
 
 const detail = ref(null);
@@ -80,7 +86,7 @@ watch(
     if (!id) return;
     loading.value = true;
     try {
-      const {request} = await api.request(id);
+      const {request} = await (props.fetcher || api.request)(id);
       if (props.id === id) detail.value = request;
     } catch (err) {
       error.value = err.message;

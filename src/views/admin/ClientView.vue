@@ -12,7 +12,7 @@
           </div>
           <dl class="facts">
             <div><dt>Email</dt><dd>{{ client.email || '—' }}</dd></div>
-            <div><dt>Token</dt><dd><code>{{ client.token_prefix }}…</code></dd></div>
+            <div><dt>Token</dt><dd><code v-if="client.token_prefix">{{ client.token_prefix }}…</code><span v-else class="muted">none yet</span></dd></div>
             <div><dt>Created</dt><dd>{{ formatDateTime(client.created_at) }}</dd></div>
             <div><dt>Last used</dt><dd>{{ formatDateTime(client.last_used_at) }}</dd></div>
             <div v-if="client.revoked_at"><dt>Revoked</dt><dd>{{ formatDateTime(client.revoked_at) }}</dd></div>
@@ -21,6 +21,8 @@
         </div>
         <button v-if="client.status === 'active'" class="btn btn-secondary danger-outline" type="button" @click="confirming = true">Revoke access</button>
       </section>
+
+      <ClientBilling :client="client" @updated="client = {...client, ...$event}" />
 
       <section class="card webhook">
         <header class="card-header">
@@ -101,6 +103,7 @@ import UsageChart from '../../components/UsageChart.vue';
 import RequestsTable from '../../components/RequestsTable.vue';
 import RequestDrawer from '../../components/RequestDrawer.vue';
 import ModalDialog from '../../components/ModalDialog.vue';
+import ClientBilling from '../../components/ClientBilling.vue';
 
 const route = useRoute();
 const client = ref(null);

@@ -4,8 +4,12 @@
 
   <ol class="steps">
     <li>
+      <strong>Create an account</strong>
+      <p><RouterLink to="/register">Sign up</RouterLink> with your company name and work email, then click the link we email you. Your free trial starts straight away, with credits to try every check.</p>
+    </li>
+    <li>
       <strong>Get your access token</strong>
-      <p>When Smatid creates your account, you get an email titled “Your Smatid KYC API access token”. The token starts with <code>kyc_</code>.</p>
+      <p>In the portal, go to <RouterLink to="/app/developers">Developers</RouterLink> and choose <strong>Create API token</strong>. Copy it: it starts with <code>kyc_</code> and is only shown once. (If Smatid set your account up for you, the token was in your welcome email.)</p>
     </li>
     <li>
       <strong>Keep it on your server</strong>
@@ -25,7 +29,7 @@
     </li>
     <li>
       <strong>Handle errors</strong>
-      <p>Anything else comes with an <code>error</code> code. A <code>4xx</code> means something in your request needs fixing; a <code>502</code> or <code>503</code> means a source was unavailable, so try again a little later. See <RouterLink to="/docs/errors">Errors</RouterLink>.</p>
+      <p>Anything else comes with an <code>error</code> code. A <code>4xx</code> means something in your request needs fixing (a <code>402</code> means you’re out of credits); a <code>502</code> or <code>503</code> means a source was unavailable, so try again a little later. See <RouterLink to="/docs/errors">Errors</RouterLink>.</p>
     </li>
   </ol>
 

@@ -15,6 +15,7 @@
               <th>Module</th>
               <th>Key</th>
               <th>Endpoint</th>
+              <th class="num">Cost</th>
               <th>Status</th>
               <th></th>
             </tr>
@@ -30,6 +31,7 @@
                 <span v-if="m.connected" class="small">Connected</span>
                 <span v-else class="small muted" title="No endpoint checks this key yet. It needs to be built before the switch does anything.">Not built yet</span>
               </td>
+              <td class="num nowrap"><strong>{{ m.credit_cost }}</strong> <span class="muted small">{{ m.credit_cost === 1 ? 'credit' : 'credits' }}</span></td>
               <td>
                 <button
                   class="switch"
@@ -70,6 +72,11 @@
         <div class="field">
           <label for="m-desc">Description</label>
           <textarea id="m-desc" v-model="form.description" class="input textarea" rows="3" maxlength="2000" placeholder="What this check does"></textarea>
+        </div>
+        <div class="field">
+          <label for="m-cost">Cost per check (credits)</label>
+          <input id="m-cost" v-model.number="form.credit_cost" class="input" type="number" min="0" max="1000" step="1" required />
+          <span class="muted small">Charged only when a check completes. 0 makes it free.</span>
         </div>
         <label class="check">
           <input v-model="form.enabled" type="checkbox" />
@@ -147,16 +154,16 @@ async function setStatus(m, status) {
 const editing = ref(null);
 const saving = ref(false);
 const formError = ref('');
-const form = reactive({key: '', name: '', description: '', enabled: true});
+const form = reactive({key: '', name: '', description: '', enabled: true, credit_cost: 1});
 
 function openCreate() {
-  Object.assign(form, {key: '', name: '', description: '', enabled: true});
+  Object.assign(form, {key: '', name: '', description: '', enabled: true, credit_cost: 1});
   formError.value = '';
   editing.value = {};
 }
 
 function openEdit(m) {
-  Object.assign(form, {key: m.key, name: m.name, description: m.description || '', enabled: m.status === 'enabled'});
+  Object.assign(form, {key: m.key, name: m.name, description: m.description || '', enabled: m.status === 'enabled', credit_cost: m.credit_cost});
   formError.value = '';
   editing.value = m;
 }
@@ -168,7 +175,7 @@ async function save() {
     return;
   }
   saving.value = true;
-  const fields = {name: form.name.trim(), description: form.description.trim() || null, status: form.enabled ? 'enabled' : 'disabled'};
+  const fields = {name: form.name.trim(), description: form.description.trim() || null, status: form.enabled ? 'enabled' : 'disabled', credit_cost: form.credit_cost};
   try {
     const {module} = editing.value.id
       ? await api.updateModule(editing.value.id, fields)

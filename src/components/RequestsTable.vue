@@ -8,6 +8,7 @@
           <th>Check</th>
           <th>Searched for</th>
           <th>Result</th>
+          <th v-if="showCredits" class="num">Credits</th>
           <th class="num">Took</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@
               <span class="label">{{ r.label }}</span>
             </div>
           </td>
+          <td v-if="showCredits" class="num nowrap">{{ r.credits_charged || '—' }}</td>
           <td class="num muted nowrap">{{ formatDuration(r.duration_ms) }}</td>
         </tr>
       </tbody>
@@ -40,6 +42,7 @@ import {checkName, formatDateTime, formatDuration} from '../format.js';
 defineProps({
   rows: {type: Array, required: true},
   showClient: {type: Boolean, default: true},
+  showCredits: {type: Boolean, default: false},
   loading: {type: Boolean, default: false},
   emptyText: {type: String, default: 'No KYC requests yet.'},
 });

@@ -11,6 +11,7 @@
       <tr><td>200, 201</td><td>Success (201: something was created)</td><td>Read the body.</td></tr>
       <tr><td>400</td><td>The request isn’t right</td><td>Fix it, using the error code. Retrying won’t help.</td></tr>
       <tr><td>401</td><td>No token, or a wrong or revoked one</td><td>See <RouterLink to="/docs/authentication">Authentication</RouterLink>.</td></tr>
+      <tr><td>402</td><td>Not enough credits for this check (<code>insufficient_credits</code>)</td><td>Top up. See <RouterLink to="/docs/credits">Credits &amp; billing</RouterLink>.</td></tr>
       <tr><td>403</td><td>That check is switched off for now (<code>module_disabled</code>)</td><td>See <RouterLink to="/docs/modules">Modules</RouterLink>.</td></tr>
       <tr><td>404</td><td>Not found: a company not on the register, or a session that isn’t yours</td><td>Check the number or ID.</td></tr>
       <tr><td>409, 410</td><td>The session isn’t in a state that allows this</td><td>Read its status.</td></tr>
@@ -45,6 +46,8 @@ const codes = [
   ['missing_access_token', 401, 'All', 'No Bearer token was sent.'],
   ['invalid_access_token', 401, 'All', 'The token is wrong or revoked.'],
   ['auth_unavailable', 503, 'All', 'The token couldn’t be checked just then.'],
+  ['insufficient_credits', 402, 'All checks', 'Not enough credits. The body also has "credits_needed" and "available_credits".'],
+  ['billing_unavailable', 503, 'All checks', 'Credits couldn’t be checked just then. Nothing was charged.'],
   ['module_disabled', 403, 'All checks', 'This check is switched off. The body also has "module".'],
   ['module_check_unavailable', 503, 'All checks', 'Whether the check is on couldn’t be confirmed just then.'],
   ['invalid_registration_number', 400, 'Company', 'The number isn’t 3–30 letters, digits, / or -.'],

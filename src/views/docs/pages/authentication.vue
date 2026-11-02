@@ -7,7 +7,7 @@
   <h2>Your token</h2>
   <ul>
     <li>It starts with <code>kyc_</code>, followed by 43 random characters.</li>
-    <li>It’s emailed to you once, when Smatid creates your account. Smatid only keeps a fingerprint of it, so it can’t be shown or sent again.</li>
+    <li>An account owner creates it in the portal, under <RouterLink to="/app/developers">Developers</RouterLink> (or it’s in your welcome email if Smatid set your account up). It’s shown once: Smatid only keeps a fingerprint of it, so it can’t be shown again.</li>
     <li>It’s yours alone: every check made with it is recorded against your account.</li>
   </ul>
 
@@ -29,7 +29,7 @@
   </table>
 
   <DocNote kind="danger" title="Lost or leaked token?">
-    <p>Contact Smatid straight away. We revoke it, so it stops working at once, and issue you a new one.</p>
+    <p>An owner can create a new one under <RouterLink to="/app/developers">Developers</RouterLink>. The old one stops working at once, so update your systems straight after.</p>
   </DocNote>
 </template>
 

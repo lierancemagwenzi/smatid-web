@@ -14,6 +14,8 @@
             <tr>
               <th>Client</th>
               <th>Token</th>
+              <th class="num">Credits</th>
+              <th>Trial until</th>
               <th>Status</th>
               <th class="num">Requests</th>
               <th>Last request</th>
@@ -26,7 +28,9 @@
                 <div class="name">{{ c.name }}</div>
                 <div class="muted small">{{ c.email || '—' }}</div>
               </td>
-              <td><code class="prefix">{{ c.token_prefix }}…</code></td>
+              <td><code v-if="c.token_prefix" class="prefix">{{ c.token_prefix }}…</code><span v-else class="muted small">none yet</span></td>
+              <td class="num"><strong>{{ formatNumber(c.available_credits) }}</strong></td>
+              <td class="nowrap muted">{{ c.trial_until ? (c.trial_active ? formatDate(c.trial_until) : 'ended') : '—' }}<span v-if="c.registered_via === 'self'" class="badge plain self">signed up</span></td>
               <td><span class="badge" :class="c.status === 'active' ? 'ok' : 'bad'">{{ c.status === 'active' ? 'Active' : 'Revoked' }}</span></td>
               <td class="num">{{ formatNumber(c.requests) }}</td>
               <td class="nowrap muted">{{ formatDateTime(c.last_request_at) }}</td>
@@ -43,7 +47,7 @@
 
     <ModalDialog v-if="creating" :title="created ? 'Client created' : 'New client'" width="520px" @close="closeCreate">
       <template v-if="!created">
-        <p class="muted small intro">The client gets an email with their access token. They use it to call the KYC API.</p>
+        <p class="muted small intro">The client gets one email with their API access token and a link to set up their account on the client portal. They start with the free trial.</p>
         <p v-if="createError" class="form-error" role="alert">{{ createError }}</p>
         <form id="create-client" class="form" @submit.prevent="create">
           <div class="field">
@@ -53,13 +57,18 @@
           <div class="field">
             <label for="client-email">Email for the access token</label>
             <input id="client-email" v-model="form.email" class="input" type="email" required placeholder="it@acme.co.zw" />
+            <span class="muted small">Also their sign-in for the client portal.</span>
+          </div>
+          <div class="field">
+            <label for="client-contact">Contact person <span class="muted">(optional)</span></label>
+            <input id="client-contact" v-model="form.contact_name" class="input" maxlength="255" placeholder="e.g. Tendai Moyo" />
           </div>
         </form>
       </template>
 
       <template v-else>
         <div class="notice" :class="created.email_sent ? 'ok' : 'warn'">
-          <template v-if="created.email_sent">The access token was emailed to <strong>{{ created.client.email }}</strong>.</template>
+          <template v-if="created.email_sent">The access token and a portal set-up link were emailed to <strong>{{ created.client.email }}</strong>.</template>
           <template v-else>The email to <strong>{{ created.client.email }}</strong> could not be sent. Copy the token below and pass it on safely.</template>
         </div>
         <div class="field">
@@ -126,10 +135,10 @@ const created = ref(null);
 const createBusy = ref(false);
 const createError = ref('');
 const copied = ref(false);
-const form = reactive({name: '', email: ''});
+const form = reactive({name: '', email: '', contact_name: ''});
 
 function openCreate() {
-  Object.assign(form, {name: '', email: ''});
+  Object.assign(form, {name: '', email: '', contact_name: ''});
   created.value = null;
   createError.value = '';
   creating.value = true;
@@ -145,7 +154,7 @@ async function create() {
   createError.value = '';
   createBusy.value = true;
   try {
-    created.value = await api.createClient(form.name.trim(), form.email.trim());
+    created.value = await api.createClient(form.name.trim(), form.email.trim(), form.contact_name.trim() || undefined);
     load();
   } catch (err) {
     createError.value = err.message;
@@ -170,6 +179,7 @@ async function copyToken() {
 .toolbar { display: flex; gap: 12px; justify-content: space-between; flex-wrap: wrap; }
 .search { max-width: 320px; }
 .name { font-weight: 600; }
+.self { margin-left: 6px; font-size: 11px; }
 .prefix { color: var(--ink-2); background: var(--surface-2); padding: 2px 6px; border-radius: 5px; }
 .intro { margin: 0; }
 .form { display: grid; gap: 14px; }

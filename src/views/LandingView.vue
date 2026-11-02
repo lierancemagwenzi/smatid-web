@@ -9,10 +9,11 @@
         <nav class="nav-links" aria-label="Main">
           <a href="#checks">Checks</a>
           <a href="#how">How it works</a>
-          <a href="#api">API</a>
+          <a href="#pricing">Pricing</a>
           <RouterLink to="/docs/introduction">Documentation</RouterLink>
         </nav>
-        <RouterLink to="/admin" class="btn btn-secondary btn-sm nav-admin">Admin sign in</RouterLink>
+        <RouterLink to="/login" class="nav-signin">Sign in</RouterLink>
+        <RouterLink to="/register" class="btn btn-primary btn-sm nav-cta">Start free trial</RouterLink>
       </div>
     </header>
 
@@ -27,7 +28,7 @@
             request and get a clear answer back.
           </p>
           <div class="hero-actions">
-            <a :href="accessHref" class="btn btn-primary btn-lg">Request access</a>
+            <RouterLink to="/register" class="btn btn-primary btn-lg">Start free trial</RouterLink>
             <RouterLink to="/docs/introduction" class="btn btn-ghost btn-lg hero-secondary">Documentation →</RouterLink>
           </div>
         </div>
@@ -133,16 +134,47 @@
       </div>
     </section>
 
+    <section id="pricing" class="section section-alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Simple, pay-as-you-go pricing</h2>
+          <p>Buy credits with EcoCash, InnBucks, O’mari or card through SmatPay, and spend them on checks. Paid credits never expire.</p>
+        </div>
+        <div v-if="pricing" class="pricing">
+          <div class="price-card">
+            <h3>What a check costs</h3>
+            <ul class="price-list">
+              <li v-for="c in pricing.checks" :key="c.key"><span>{{ c.name }}</span><strong>{{ c.credit_cost }} {{ c.credit_cost === 1 ? 'credit' : 'credits' }}</strong></li>
+            </ul>
+            <p class="muted small">Only completed checks are charged.</p>
+          </div>
+          <div class="price-card">
+            <h3>Credit packs</h3>
+            <ul class="price-list">
+              <li v-for="p in pricing.packages" :key="p.credits"><span>{{ p.credits.toLocaleString() }} credits</span><strong>{{ pricing.currency }} {{ p.amount.toFixed(2) }}</strong></li>
+            </ul>
+            <p class="muted small">{{ pricing.currency }} {{ pricing.credit_price.toFixed(2) }} per credit, or buy any amount.</p>
+          </div>
+          <div class="price-card trial">
+            <h3>Free trial</h3>
+            <p class="trial-big">{{ pricing.trial.credits }} credits</p>
+            <p>for {{ pricing.trial.days }} days to try every check. No card needed.</p>
+            <RouterLink to="/register" class="btn btn-primary">Start free trial</RouterLink>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="contact" class="section cta">
       <div class="wrap cta-inner">
         <div>
           <h2>Ready to run checks?</h2>
-          <p>Tell us about your business and we’ll set you up with an access token.</p>
+          <p>Create an account, get your API token and run your first check in minutes.</p>
         </div>
-        <a v-if="contactEmail" :href="`mailto:${contactEmail}?subject=Smatid%20KYC%20access`" class="btn btn-lg cta-btn">
-          Email {{ contactEmail }}
-        </a>
-        <p v-else class="cta-note">Contact your Smatid representative for access.</p>
+        <div class="cta-actions">
+          <RouterLink to="/register" class="btn btn-lg cta-btn">Start free trial</RouterLink>
+          <a v-if="contactEmail" :href="`mailto:${contactEmail}?subject=Smatid%20KYC`" class="cta-mail">or email {{ contactEmail }}</a>
+        </div>
       </div>
     </section>
 
@@ -151,6 +183,7 @@
         <span>© {{ year }} Smatid</span>
         <span class="footer-links">
           <RouterLink to="/docs/introduction">Documentation</RouterLink>
+          <RouterLink to="/login">Sign in</RouterLink>
           <RouterLink to="/admin">Admin</RouterLink>
         </span>
       </div>
@@ -159,8 +192,18 @@
 </template>
 
 <script setup>
+import {onMounted, ref} from 'vue';
+
+const pricing = ref(null);
+onMounted(async () => {
+  try {
+    const res = await fetch(`${(import.meta.env.VITE_API_URL || '').replace(/\/$/, '')}/api/public/pricing`);
+    if (res.ok) pricing.value = await res.json();
+  } catch {
+    // The pricing section just stays empty.
+  }
+});
 const contactEmail = import.meta.env.VITE_CONTACT_EMAIL || '';
-const accessHref = contactEmail ? `mailto:${contactEmail}?subject=Smatid%20KYC%20access` : '#contact';
 const apiHost = (import.meta.env.VITE_API_URL || 'https://dev-api.smatid.com').replace(/\/$/, '');
 const year = new Date().getFullYear();
 
@@ -229,8 +272,21 @@ const checks = [
 .nav-links { display: flex; gap: 24px; margin-left: auto; }
 .nav-links a { color: #cbd5e1; font-size: 14px; font-weight: 500; }
 .nav-links a:hover { color: #fff; text-decoration: none; }
-.nav-admin { background: transparent; color: #fff; border-color: rgb(255 255 255 / 0.25); }
-.nav-admin:hover { background: rgb(255 255 255 / 0.08) !important; }
+.nav-signin { color: #e2e8f0; font-size: 14px; font-weight: 600; }
+.nav-signin:hover { color: #fff; text-decoration: none; }
+
+.pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.price-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; display: grid; gap: 12px; align-content: start; }
+.price-card h3 { font-size: 17px; }
+.price-card p { margin: 0; }
+.price-list { list-style: none; margin: 0; padding: 0; display: grid; }
+.price-list li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+.price-list li:last-child { border-bottom: 0; }
+.price-card.trial { background: linear-gradient(160deg, #eef3ff, #fff); border-color: #c7d6ff; }
+.trial-big { font-size: 32px; font-weight: 700; color: var(--brand); }
+.price-card .btn { justify-self: start; }
+.cta-actions { display: grid; gap: 10px; justify-items: center; }
+.cta-mail { color: #dbe6ff; font-size: 14px; }
 
 .hero {
   background:
@@ -355,7 +411,8 @@ const checks = [
   .hero-inner, .api { grid-template-columns: 1fr; gap: 36px; }
   .checks, .steps { grid-template-columns: 1fr 1fr; }
   .nav-links { display: none; }
-  .nav-admin { margin-left: auto; }
+  .nav-signin { margin-left: auto; }
+  .pricing { grid-template-columns: 1fr; }
   .section { padding: 64px 0; }
 }
 @media (max-width: 600px) {
