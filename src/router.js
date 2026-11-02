@@ -13,6 +13,7 @@ const routes = [
             {path: '', name: 'dashboard', component: () => import('./views/admin/DashboardView.vue'), meta: {title: 'Dashboard'}},
             {path: 'clients', name: 'clients', component: () => import('./views/admin/ClientsView.vue'), meta: {title: 'Clients'}},
             {path: 'clients/:id', name: 'client', component: () => import('./views/admin/ClientView.vue'), meta: {title: 'Client'}},
+            {path: 'modules', name: 'modules', component: () => import('./views/admin/ModulesView.vue'), meta: {title: 'Modules'}},
             {path: 'usage', name: 'usage', component: () => import('./views/admin/UsageView.vue'), meta: {title: 'Usage'}},
         ],
     },

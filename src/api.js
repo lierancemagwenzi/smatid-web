@@ -21,6 +21,9 @@ const MESSAGES = {
     valid_email_required: 'Enter a valid email address for the client.',
     client_not_found: 'That client doesn’t exist.',
     request_not_found: 'That request doesn’t exist.',
+    invalid_key: 'Use lowercase letters, numbers and dashes for the key, e.g. liveness-check.',
+    key_taken: 'A module with that key already exists.',
+    module_not_found: 'That module doesn’t exist.',
 };
 
 function messageFor(code, status) {
@@ -62,6 +65,9 @@ export const api = {
     client: (id) => request('GET', `/api/admin/clients/${id}`),
     createClient: (name, email) => request('POST', '/api/admin/clients', {body: {name, email}}),
     revokeClient: (id) => request('POST', `/api/admin/clients/${id}/revoke`),
+    modules: () => request('GET', '/api/admin/modules'),
+    createModule: (fields) => request('POST', '/api/admin/modules', {body: fields}),
+    updateModule: (id, fields) => request('PATCH', `/api/admin/modules/${id}`, {body: fields}),
     requests: (query) => request('GET', '/api/admin/requests', {query}),
     request: (id) => request('GET', `/api/admin/requests/${id}`),
 };
