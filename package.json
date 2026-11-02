@@ -1,0 +1,23 @@
+{
+  "name": "smatid_kyc_web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Smatid KYC website: the landing page and the /admin console for clients and usage",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "dependencies": {
+    "vue": "^3.5.44",
+    "vue-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "vite": "^8.3.5"
+  }
+}
