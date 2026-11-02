@@ -14,6 +14,10 @@ const LOOKS = {
   hit: {tone: 'warn', text: 'Match'},
   pep: {tone: 'info', text: 'PEP'},
   sanctioned: {tone: 'bad', text: 'Sanctioned'},
+  passed: {tone: 'ok', text: 'Passed'},
+  failed: {tone: 'bad', text: 'Failed'},
+  pending: {tone: '', text: 'Pending'},
+  expired: {tone: 'warn', text: 'Expired'},
   error: {tone: 'bad', text: 'Error'},
 };
 const look = computed(() => LOOKS[props.outcome] || {tone: '', text: props.outcome});

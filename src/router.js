@@ -1,9 +1,12 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import {isSignedIn} from './session.js';
 import LandingView from './views/LandingView.vue';
+import {SECTIONS} from './views/docs/docs.js';
 
 const routes = [
     {path: '/', name: 'landing', component: LandingView},
+    {path: '/docs', redirect: '/docs/introduction'},
+    {path: '/docs/:slug', name: 'docs', component: () => import('./views/docs/DocsLayout.vue'), meta: {docs: true}},
     {path: '/admin/login', name: 'login', component: () => import('./views/admin/LoginView.vue'), meta: {title: 'Sign in'}},
     {
         path: '/admin',
@@ -23,7 +26,12 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
-    scrollBehavior: (to, from, saved) => saved || (to.hash ? {el: to.hash, behavior: 'smooth'} : {top: 0}),
+    scrollBehavior: (to, from, saved) => {
+        if (saved) return saved;
+        // Doc pages load on demand, so give the page a moment to appear before scrolling to a heading.
+        if (to.hash) return new Promise((resolve) => setTimeout(() => resolve({el: to.hash, top: 80, behavior: 'smooth'}), to.path === from.path ? 0 : 250));
+        return {top: 0};
+    },
 });
 
 router.beforeEach((to) => {
@@ -34,6 +42,11 @@ router.beforeEach((to) => {
 });
 
 router.afterEach((to) => {
+    if (to.meta.docs) {
+        const section = SECTIONS.find((s) => s.slug === to.params.slug);
+        document.title = `${section ? section.title : 'Documentation'} · Smatid KYC docs`;
+        return;
+    }
     document.title = to.meta.title ? `${to.meta.title} · Smatid KYC` : 'Smatid KYC';
 });
 

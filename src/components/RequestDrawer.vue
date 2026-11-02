@@ -45,6 +45,8 @@
               </ul>
             </div>
 
+            <LivenessFrames v-if="detail.liveness_session_id" :session-id="detail.liveness_session_id" />
+
             <JsonBlock title="What was searched" :value="detail.request" />
             <JsonBlock title="Response" :value="detail.response" />
           </template>
@@ -60,6 +62,7 @@ import {api} from '../api.js';
 import {checkName, formatDateTime, formatDuration} from '../format.js';
 import OutcomeBadge from './OutcomeBadge.vue';
 import JsonBlock from './JsonBlock.vue';
+import LivenessFrames from './LivenessFrames.vue';
 
 const props = defineProps({id: {type: [Number, String], default: null}});
 const emit = defineEmits(['close']);

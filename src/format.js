@@ -10,6 +10,7 @@ export const formatDuration = (ms) => (ms == null ? '—' : ms < 1000 ? `${ms} m
 export const CHECKS = {
     company: 'Company registration',
     sanctions: 'Sanctions & PEP',
+    liveness: 'Liveness',
 };
 export const checkName = (type) => CHECKS[type] || type;
 

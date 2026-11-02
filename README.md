@@ -7,6 +7,7 @@ API clients and reviewing KYC usage. Vue 3 + Vue Router + Vite. It talks to the 
 | Page | What it does |
 | --- | --- |
 | `/` | Landing page: the checks, how it works, the API in short |
+| `/docs` | API documentation for clients: getting started, each check, getting results, every endpoint (`src/views/docs/`) |
 | `/admin/login` | Admin sign-in (email and password) |
 | `/admin` | Dashboard: requests, errors and clients over 7, 30 or 90 days, requests per day, top clients, latest requests |
 | `/admin/clients` | All clients with request counts. **New client** creates one and emails them their token |

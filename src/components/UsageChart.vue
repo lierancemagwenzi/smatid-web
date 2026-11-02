@@ -36,6 +36,7 @@ const props = defineProps({
 const SERIES = [
   {key: 'company', label: 'Company registration', color: 'var(--chart-company)'},
   {key: 'sanctions', label: 'Sanctions & PEP', color: 'var(--chart-sanctions)'},
+  {key: 'liveness', label: 'Liveness', color: 'var(--chart-liveness)'},
 ];
 
 // Every day in the range, including days without calls, oldest first.

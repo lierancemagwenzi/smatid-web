@@ -24,6 +24,9 @@ const MESSAGES = {
     invalid_key: 'Use lowercase letters, numbers and dashes for the key, e.g. liveness-check.',
     key_taken: 'A module with that key already exists.',
     module_not_found: 'That module doesn’t exist.',
+    webhook_url_must_be_https: 'The webhook address must start with https://.',
+    webhook_url_not_public: 'The webhook address must be a public website, not a private or internal one.',
+    invalid_webhook_url: 'That isn’t a valid web address.',
 };
 
 function messageFor(code, status) {
@@ -32,7 +35,7 @@ function messageFor(code, status) {
     return `Something went wrong (${code || `HTTP ${status}`}).`;
 }
 
-async function request(method, path, {body, query} = {}) {
+async function request(method, path, {body, query, raw} = {}) {
     const url = new URL(BASE + path, window.location.origin);
     for (const [k, v] of Object.entries(query || {})) {
         if (v !== undefined && v !== null && v !== '') url.searchParams.set(k, v);
@@ -46,6 +49,7 @@ async function request(method, path, {body, query} = {}) {
     } catch {
         throw new ApiError(0, 'network');
     }
+    if (raw && res.ok) return res.blob();
     const data = await res.json().catch(() => ({}));
     if (res.status === 401 && path !== '/api/admin/login') {
         // The session ended (expired, or signed out elsewhere): back to the sign-in page.
@@ -64,10 +68,13 @@ export const api = {
     clients: () => request('GET', '/api/admin/clients'),
     client: (id) => request('GET', `/api/admin/clients/${id}`),
     createClient: (name, email) => request('POST', '/api/admin/clients', {body: {name, email}}),
+    updateClient: (id, fields) => request('PATCH', `/api/admin/clients/${id}`, {body: fields}),
     revokeClient: (id) => request('POST', `/api/admin/clients/${id}/revoke`),
     modules: () => request('GET', '/api/admin/modules'),
     createModule: (fields) => request('POST', '/api/admin/modules', {body: fields}),
     updateModule: (id, fields) => request('PATCH', `/api/admin/modules/${id}`, {body: fields}),
+    livenessSession: (sessionId) => request('GET', `/api/admin/liveness/${encodeURIComponent(sessionId)}`),
+    livenessFrame: (sessionId, frame) => request('GET', `/api/admin/liveness/${encodeURIComponent(sessionId)}/frames/${encodeURIComponent(frame)}`, {raw: true}),
     requests: (query) => request('GET', '/api/admin/requests', {query}),
     request: (id) => request('GET', `/api/admin/requests/${id}`),
 };

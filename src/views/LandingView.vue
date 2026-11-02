@@ -10,6 +10,7 @@
           <a href="#checks">Checks</a>
           <a href="#how">How it works</a>
           <a href="#api">API</a>
+          <RouterLink to="/docs/introduction">Documentation</RouterLink>
         </nav>
         <RouterLink to="/admin" class="btn btn-secondary btn-sm nav-admin">Admin sign in</RouterLink>
       </div>
@@ -27,7 +28,7 @@
           </p>
           <div class="hero-actions">
             <a :href="accessHref" class="btn btn-primary btn-lg">Request access</a>
-            <a href="#api" class="btn btn-ghost btn-lg hero-secondary">See the API →</a>
+            <RouterLink to="/docs/introduction" class="btn btn-ghost btn-lg hero-secondary">Documentation →</RouterLink>
           </div>
         </div>
 
@@ -109,10 +110,12 @@
           <ul class="api-list">
             <li><code>GET /api/kyc/company/:number</code><span>Look up a company registration number on the CIPZ register.</span></li>
             <li><code>POST /api/kyc/sanctions</code><span>Screen a person or a company against sanctions and PEP lists.</span></li>
+            <li><code>POST /api/kyc/liveness</code><span>Get a link for the person to prove they’re live; results come back by webhook.</span></li>
           </ul>
           <p class="muted small">
             A birth date and nationality for people, or a registration number for companies, cut down false matches a lot.
           </p>
+          <RouterLink to="/docs/quickstart" class="btn btn-primary">Read the documentation →</RouterLink>
         </div>
         <div class="code-card light">
           <div class="code-tabs">
@@ -146,7 +149,10 @@
     <footer class="footer">
       <div class="wrap footer-inner">
         <span>© {{ year }} Smatid</span>
-        <RouterLink to="/admin">Admin</RouterLink>
+        <span class="footer-links">
+          <RouterLink to="/docs/introduction">Documentation</RouterLink>
+          <RouterLink to="/admin">Admin</RouterLink>
+        </span>
       </div>
     </footer>
   </div>
@@ -196,8 +202,9 @@ const checks = [
   },
   {
     name: 'Liveness',
-    text: 'Make sure there’s a real person in front of the camera, not a photo or a screen.',
-    live: false,
+    text: 'Send the person a link to a hosted page that checks a real person is in front of the camera, not a photo or a screen.',
+    endpoint: 'POST /api/kyc/liveness',
+    live: true,
     icon: icon('<path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/><circle cx="12" cy="12" r="3"/>'),
   },
 ];
@@ -341,6 +348,7 @@ const checks = [
 .footer { background: var(--night); color: #94a3b8; font-size: 14px; }
 .footer-inner { display: flex; justify-content: space-between; padding: 24px; }
 .footer a { color: #cbd5e1; }
+.footer-links { display: flex; gap: 20px; }
 
 @media (max-width: 900px) {
   .hero { padding: 56px 0 64px; }

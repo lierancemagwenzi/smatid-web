@@ -22,6 +22,30 @@
         <button v-if="client.status === 'active'" class="btn btn-secondary danger-outline" type="button" @click="confirming = true">Revoke access</button>
       </section>
 
+      <section class="card webhook">
+        <header class="card-header">
+          <h2>Webhook</h2>
+          <button v-if="!editingWebhook" class="btn btn-ghost btn-sm" type="button" @click="editWebhook">{{ client.webhook_url ? 'Change' : 'Set up' }}</button>
+        </header>
+        <div class="card-body">
+          <template v-if="!editingWebhook">
+            <p v-if="client.webhook_url" class="webhook-url"><code>{{ client.webhook_url }}</code></p>
+            <p v-else class="muted small">No default webhook. Liveness results are only sent to a webhook when the session asks for one.</p>
+            <p class="muted small">Liveness results are POSTed here, signed with the client’s secret, when a session finishes. A session can give its own <code>webhook_url</code> instead.</p>
+          </template>
+          <form v-else class="webhook-form" @submit.prevent="saveWebhook">
+            <label class="visually-hidden" for="webhook-url">Webhook URL</label>
+            <input id="webhook-url" v-model="webhookDraft" class="input" type="url" placeholder="https://client.example/hooks/smatid" autofocus />
+            <div class="webhook-actions">
+              <button v-if="client.webhook_url" class="btn btn-ghost btn-sm danger-text" type="button" :disabled="savingWebhook" @click="clearWebhook">Remove</button>
+              <button class="btn btn-secondary btn-sm" type="button" @click="editingWebhook = false">Cancel</button>
+              <button class="btn btn-primary btn-sm" type="submit" :disabled="savingWebhook">{{ savingWebhook ? 'Saving…' : 'Save' }}</button>
+            </div>
+            <p v-if="webhookError" class="form-error">{{ webhookError }}</p>
+          </form>
+        </div>
+      </section>
+
       <div v-if="stats" class="stats">
         <div v-for="c in stats.by_check" :key="c.check_type" class="card stat">
           <span class="stat-label">{{ checkName(c.check_type) }}</span>
@@ -126,6 +150,34 @@ async function load() {
 
 watch(() => route.params.id, (id) => id && load(), {immediate: true});
 
+const editingWebhook = ref(false);
+const webhookDraft = ref('');
+const savingWebhook = ref(false);
+const webhookError = ref('');
+
+function editWebhook() {
+  webhookDraft.value = client.value.webhook_url || '';
+  webhookError.value = '';
+  editingWebhook.value = true;
+}
+
+async function putWebhook(url) {
+  savingWebhook.value = true;
+  webhookError.value = '';
+  try {
+    const {client: updated} = await api.updateClient(client.value.id, {webhook_url: url});
+    client.value = {...client.value, ...updated};
+    editingWebhook.value = false;
+  } catch (err) {
+    webhookError.value = err.message;
+  } finally {
+    savingWebhook.value = false;
+  }
+}
+
+const saveWebhook = () => putWebhook(webhookDraft.value.trim() || null);
+const clearWebhook = () => putWebhook(null);
+
 const confirming = ref(false);
 const revoking = ref(false);
 const revokeError = ref('');
@@ -164,4 +216,10 @@ async function revoke() {
 .stat-note { font-size: 12px; color: var(--muted); }
 .more { padding: 14px; text-align: center; border-top: 1px solid var(--line); }
 .confirm-text { margin: 0; }
+.webhook .card-body { display: grid; gap: 8px; }
+.webhook p { margin: 0; }
+.webhook-url code { word-break: break-all; font-size: 13px; }
+.webhook-form { display: grid; gap: 10px; }
+.webhook-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.danger-text { color: var(--bad); margin-right: auto; }
 </style>
