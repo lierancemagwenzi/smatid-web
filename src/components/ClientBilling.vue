@@ -26,10 +26,9 @@
 
     <div class="tabs">
       <button v-for="t in TABS" :key="t.id" type="button" :class="{on: tab === t.id}" @click="tab = t.id">{{ t.label }}</button>
-      <button v-if="tab === 'users'" class="btn btn-primary btn-sm add-user" type="button" @click="openAddUser">+ Add user</button>
     </div>
-    <p v-if="userNotice" class="user-notice">{{ userNotice }}</p>
     <p v-if="topupNotice" class="user-notice">{{ topupNotice }}</p>
+    <p v-if="loadError" class="form-error pad">{{ loadError }}</p>
     <div class="table-wrap">
       <table v-if="tab === 'history'" class="table">
         <thead><tr><th>When</th><th>What</th><th class="num">Paid</th><th class="num">Trial</th><th class="num">Balance after</th></tr></thead>
@@ -56,7 +55,7 @@
           </tr>
         </tbody>
       </table>
-      <table v-else-if="tab === 'topups'" class="table">
+      <table v-else class="table">
         <thead><tr><th>When</th><th class="num">Credits</th><th>Amount</th><th>Method</th><th>Status</th><th>Reference</th></tr></thead>
         <tbody>
           <tr v-for="tp in topups" :key="tp.id">
@@ -66,18 +65,6 @@
             <td>{{ topupMethod(tp.method) }}{{ tp.payment_reference && tp.method === 'MANUAL' ? ` · ${tp.payment_reference}` : '' }}{{ tp.payer_mobile ? ` · ${tp.payer_mobile}` : '' }}</td>
             <td><span class="badge" :class="TONE[tp.status]">{{ tp.status }}</span><div v-if="tp.failure_reason" class="muted small">{{ tp.failure_reason }}</div></td>
             <td><code class="small">{{ tp.reference }}</code></td>
-          </tr>
-        </tbody>
-      </table>
-      <table v-else class="table">
-        <thead><tr><th>Name</th><th>Role</th><th>Status</th><th>Last signed in</th><th></th></tr></thead>
-        <tbody>
-          <tr v-for="u in users" :key="u.id">
-            <td><strong>{{ u.name }}</strong><div class="muted small">{{ u.email }}</div></td>
-            <td>{{ u.role === 'owner' ? 'Owner' : 'Member' }}</td>
-            <td><span class="badge" :class="u.invited ? 'warn' : u.email_verified ? 'ok' : 'warn'">{{ u.invited ? 'Invited' : u.email_verified ? 'Active' : 'Email not confirmed' }}</span></td>
-            <td class="muted nowrap">{{ formatDateTime(u.last_login_at) }}</td>
-            <td class="num"><button class="btn btn-ghost btn-sm danger-text" type="button" @click="openRemove(u)">Remove</button></td>
           </tr>
         </tbody>
       </table>
@@ -117,35 +104,6 @@
       </template>
     </ModalDialog>
 
-    <ModalDialog v-if="addingUser" title="Add a portal user" @close="addingUser = false">
-      <p v-if="formError" class="form-error">{{ formError }}</p>
-      <form id="add-user" class="form" @submit.prevent="addUser">
-        <div class="field"><label for="u-name">Name</label><input id="u-name" v-model="userForm.name" class="input" maxlength="255" required autofocus /></div>
-        <div class="field"><label for="u-email">Email</label><input id="u-email" v-model="userForm.email" class="input" type="email" required /></div>
-        <div class="field">
-          <label for="u-role">Role</label>
-          <select id="u-role" v-model="userForm.role" class="select">
-            <option value="member">Member: sees usage and credits, can top up</option>
-            <option value="owner">Owner: also manages the team and API settings</option>
-          </select>
-        </div>
-      </form>
-      <p class="muted small" style="margin:0">They’ll get an email with a link to set their password. It works for 7 days.</p>
-      <template #footer>
-        <button class="btn btn-secondary" type="button" @click="addingUser = false">Cancel</button>
-        <button class="btn btn-primary" type="submit" form="add-user" :disabled="saving">{{ saving ? 'Adding…' : 'Add user' }}</button>
-      </template>
-    </ModalDialog>
-
-    <ModalDialog v-if="removingUser" :title="`Remove ${removingUser.name}?`" @close="removingUser = null">
-      <p style="margin:0">They’ll be signed out of the portal and won’t be able to sign in to {{ client.name }} any more. Their past top-ups stay in the history.</p>
-      <p v-if="formError" class="form-error">{{ formError }}</p>
-      <template #footer>
-        <button class="btn btn-secondary" type="button" @click="removingUser = null">Cancel</button>
-        <button class="btn btn-danger" type="button" :disabled="saving" @click="removeUser">{{ saving ? 'Removing…' : 'Remove' }}</button>
-      </template>
-    </ModalDialog>
-
     <ModalDialog v-if="trialing" title="Change the trial" @close="trialing = false">
       <p class="muted small" style="margin:0">Trial credits count until the end of this day. Clear it to end the trial now.</p>
       <p v-if="formError" class="form-error">{{ formError }}</p>
@@ -169,25 +127,21 @@ import ModalDialog from './ModalDialog.vue';
 const props = defineProps({client: {type: Object, required: true}});
 const emit = defineEmits(['updated']);
 
-const TABS = [{id: 'history', label: 'Credit history'}, {id: 'usage', label: 'Credit usage'}, {id: 'topups', label: 'Top-ups'}, {id: 'users', label: 'Portal users'}];
+const TABS = [{id: 'history', label: 'Credit history'}, {id: 'usage', label: 'Credit usage'}, {id: 'topups', label: 'Top-ups'}];
 const KIND = {trial_grant: 'Free trial', trial_expiry: 'Trial ended', topup: 'Top-up', usage: 'Check', refund: 'Refund', adjustment: 'Adjustment'};
 const TONE = {paid: 'ok', pending: '', failed: 'bad', expired: 'warn', refunded: 'warn'};
-const EMPTY = {history: 'No credit changes yet.', usage: 'No credits spent on checks yet.', topups: 'No top-ups yet.', users: 'No portal users yet. Add one to give this client portal access.'};
+const EMPTY = {history: 'No credit changes yet.', usage: 'No credits spent on checks yet.', topups: 'No top-ups yet.'};
 
 const tab = ref('history');
 const transactions = ref([]);
 const topups = ref([]);
-const users = ref([]);
+const loadError = ref('');
 const adjusting = ref(false);
 const trialing = ref(false);
 const saving = ref(false);
 const formError = ref('');
 const adjustForm = reactive({credits: null, note: ''});
 const trialDate = ref('');
-const addingUser = ref(false);
-const userForm = reactive({name: '', email: '', role: 'member'});
-const userNotice = ref('');
-const removingUser = ref(null);
 
 const usage = ref(null);
 const toppingUp = ref(false);
@@ -205,18 +159,22 @@ const usageRows = computed(() => {
   return usage.value.all_time.by_check.map((all) => ({check_type: all.check_type, all, recent: recent.get(all.check_type) || none}));
 });
 
-const currentEmpty = computed(() => ({history: transactions, usage: usageRows, topups, users})[tab.value].value.length === 0);
+const currentEmpty = computed(() => ({history: transactions, usage: usageRows, topups})[tab.value].value.length === 0);
 const signed = (n) => (n > 0 ? `+${formatNumber(n)}` : n < 0 ? formatNumber(n) : '—');
 
 async function loadAll() {
   const id = props.client.id;
-  const [t, p, u, c] = await Promise.all([
-    api.clientTransactions(id, {per_page: 50}), api.clientTopups(id, {per_page: 50}), api.clientUsers(id), api.clientCreditUsage(id, {days: 30}),
-  ]);
-  usage.value = c;
-  transactions.value = t.transactions;
-  topups.value = p.topups;
-  users.value = u.users;
+  loadError.value = '';
+  try {
+    const [t, p, c] = await Promise.all([
+      api.clientTransactions(id, {per_page: 50}), api.clientTopups(id, {per_page: 50}), api.clientCreditUsage(id, {days: 30}),
+    ]);
+    usage.value = c;
+    transactions.value = t.transactions;
+    topups.value = p.topups;
+  } catch (err) {
+    loadError.value = `Couldn’t load the credit details: ${err.message}`;
+  }
 }
 watch(() => props.client.id, loadAll, {immediate: true});
 
@@ -263,47 +221,6 @@ function openTrial() {
   trialing.value = true;
 }
 
-function openAddUser() {
-  Object.assign(userForm, {name: '', email: '', role: 'member'});
-  formError.value = '';
-  addingUser.value = true;
-}
-
-async function addUser() {
-  saving.value = true;
-  formError.value = '';
-  try {
-    const {user, email_sent} = await api.addClientUser(props.client.id, {name: userForm.name.trim(), email: userForm.email.trim(), role: userForm.role});
-    // The account exists either way; without the email they can still use "Forgot password" on the portal.
-    userNotice.value = email_sent ? '' : `${user.email} was added, but the invitation email couldn’t be sent. They can set a password with “Forgot password” on the portal sign-in page.`;
-    addingUser.value = false;
-    users.value = (await api.clientUsers(props.client.id)).users;
-  } catch (err) {
-    formError.value = err.message;
-  } finally {
-    saving.value = false;
-  }
-}
-
-function openRemove(u) {
-  formError.value = '';
-  removingUser.value = u;
-}
-
-async function removeUser() {
-  saving.value = true;
-  formError.value = '';
-  try {
-    await api.removeClientUser(props.client.id, removingUser.value.id);
-    removingUser.value = null;
-    users.value = (await api.clientUsers(props.client.id)).users;
-  } catch (err) {
-    formError.value = err.message;
-  } finally {
-    saving.value = false;
-  }
-}
-
 async function adjust() {
   saving.value = true;
   formError.value = '';
@@ -346,11 +263,10 @@ async function saveTrial() {
 .via { font-size: 15px !important; }
 .tabs { display: flex; gap: 4px; padding: 10px 14px; border-bottom: 1px solid var(--line); }
 .tabs button:not(.btn) { border: 0; background: transparent; padding: 6px 12px; border-radius: 8px; font: inherit; font-size: 13.5px; font-weight: 600; color: var(--muted); cursor: pointer; }
-.tabs .add-user { margin-left: auto; }
 .user-notice { margin: 0; padding: 10px 16px; font-size: 13.5px; background: var(--warn-soft); color: #92400e; border-bottom: 1px solid var(--line); }
 .tabs button.on:not(.btn) { background: var(--brand-soft); color: var(--brand); }
 .form { display: grid; gap: 14px; }
-.danger-text { color: var(--bad); }
+.pad { margin: 0; padding: 10px 16px; }
 .check { display: flex; align-items: center; gap: 8px; font-size: 14px; }
 @media (max-width: 700px) { .balances { grid-template-columns: 1fr 1fr; } }
 </style>

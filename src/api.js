@@ -47,6 +47,8 @@ const MESSAGES = {
     invalid_amount: 'Enter the amount received, 0 or more.',
     reference_too_long: 'Keep the payment reference to 128 characters.',
     note_too_long: 'Keep the note to 150 characters.',
+    already_set_up: 'They’ve already set a password. They can use “Forgot password” on the portal sign-in page.',
+    user_not_active: 'That user is disabled, so no invite was sent.',
     last_owner: 'This is the client’s only owner. Add another owner first.',
 };
 
@@ -94,6 +96,7 @@ export const api = {
     clientUsers: (id) => request('GET', `/api/admin/clients/${id}/users`),
     addClientUser: (id, fields) => request('POST', `/api/admin/clients/${id}/users`, {body: fields}),
     removeClientUser: (id, userId) => request('DELETE', `/api/admin/clients/${id}/users/${userId}`),
+    resendInvite: (id, userId) => request('POST', `/api/admin/clients/${id}/users/${userId}/resend-invite`),
     clientTopups: (id, query) => request('GET', `/api/admin/clients/${id}/topups`, {query}),
     manualTopup: (id, fields) => request('POST', `/api/admin/clients/${id}/topups`, {body: fields}),
     clientCreditUsage: (id, query) => request('GET', `/api/admin/clients/${id}/credit-usage`, {query}),

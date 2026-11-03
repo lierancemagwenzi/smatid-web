@@ -24,6 +24,8 @@
 
       <ClientBilling :client="client" @updated="client = {...client, ...$event}" />
 
+      <ClientUsers :client="client" />
+
       <section class="card webhook">
         <header class="card-header">
           <h2>Webhook</h2>
@@ -104,6 +106,7 @@ import RequestsTable from '../../components/RequestsTable.vue';
 import RequestDrawer from '../../components/RequestDrawer.vue';
 import ModalDialog from '../../components/ModalDialog.vue';
 import ClientBilling from '../../components/ClientBilling.vue';
+import ClientUsers from '../../components/ClientUsers.vue';
 
 const route = useRoute();
 const client = ref(null);
