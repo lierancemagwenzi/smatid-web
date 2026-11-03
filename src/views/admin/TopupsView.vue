@@ -22,7 +22,7 @@
               <td><RouterLink :to="`/admin/clients/${tp.client_id}`">{{ tp.client_name || `#${tp.client_id}` }}</RouterLink></td>
               <td class="num">{{ formatNumber(tp.credits) }}</td>
               <td class="nowrap">{{ tp.currency }} {{ tp.amount.toFixed(2) }}</td>
-              <td>{{ tp.method }}{{ tp.payer_mobile ? ` · ${tp.payer_mobile}` : '' }}</td>
+              <td>{{ topupMethod(tp.method) }}{{ tp.payment_reference && tp.method === 'MANUAL' ? ` · ${tp.payment_reference}` : '' }}{{ tp.payer_mobile ? ` · ${tp.payer_mobile}` : '' }}</td>
               <td><span class="badge" :class="TONE[tp.status]">{{ tp.status }}</span><div v-if="tp.failure_reason" class="muted small">{{ tp.failure_reason }}</div></td>
               <td><code class="small">{{ tp.reference }}</code></td>
             </tr>
@@ -42,7 +42,7 @@
 <script setup>
 import {computed, ref, watch} from 'vue';
 import {api} from '../../api.js';
-import {formatDateTime, formatNumber} from '../../format.js';
+import {formatDateTime, formatNumber, topupMethod} from '../../format.js';
 
 const TONE = {paid: 'ok', pending: '', failed: 'bad', expired: 'warn', refunded: 'warn'};
 const PER_PAGE = 25;

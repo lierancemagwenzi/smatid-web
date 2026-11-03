@@ -43,6 +43,11 @@ const MESSAGES = {
     plane_must_be_sandbox_or_production: 'Choose sandbox or production.',
     encryption_key_missing: 'The server has no SETTINGS_ENCRYPTION_KEY, so keys can’t be saved safely. Add it to the API’s .env first.',
     nothing_to_update: 'Nothing has changed.',
+    user_not_found: 'That user doesn’t exist, or was already removed.',
+    invalid_amount: 'Enter the amount received, 0 or more.',
+    reference_too_long: 'Keep the payment reference to 128 characters.',
+    note_too_long: 'Keep the note to 150 characters.',
+    last_owner: 'This is the client’s only owner. Add another owner first.',
 };
 
 function messageFor(code, status) {
@@ -87,7 +92,12 @@ export const api = {
     adjustCredits: (id, credits, note) => request('POST', `/api/admin/clients/${id}/credits`, {body: {credits, note}}),
     clientTransactions: (id, query) => request('GET', `/api/admin/clients/${id}/transactions`, {query}),
     clientUsers: (id) => request('GET', `/api/admin/clients/${id}/users`),
+    addClientUser: (id, fields) => request('POST', `/api/admin/clients/${id}/users`, {body: fields}),
+    removeClientUser: (id, userId) => request('DELETE', `/api/admin/clients/${id}/users/${userId}`),
     clientTopups: (id, query) => request('GET', `/api/admin/clients/${id}/topups`, {query}),
+    manualTopup: (id, fields) => request('POST', `/api/admin/clients/${id}/topups`, {body: fields}),
+    clientCreditUsage: (id, query) => request('GET', `/api/admin/clients/${id}/credit-usage`, {query}),
+    pricing: () => request('GET', '/api/public/pricing'),
     topups: (query) => request('GET', '/api/admin/topups', {query}),
     paymentSettings: () => request('GET', '/api/admin/settings/payments'),
     savePaymentSettings: (fields) => request('PUT', '/api/admin/settings/payments', {body: fields}),

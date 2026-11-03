@@ -14,6 +14,9 @@ export const CHECKS = {
 };
 export const checkName = (type) => CHECKS[type] || type;
 
+/** A top-up's payment method; MANUAL is one an admin recorded for a payment taken outside SmatPay. */
+export const topupMethod = (method) => (method === 'MANUAL' ? 'Manual' : method);
+
 /** YYYY-MM-DD for a date `days` ago (UTC), as the API's from/to filters take. */
 export const daysAgo = (days) => new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
 

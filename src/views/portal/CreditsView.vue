@@ -168,7 +168,7 @@
 import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue';
 import {portalApi} from '../../portal/api.js';
 import {portal, portalUpdate} from '../../portal/session.js';
-import {formatDate, formatDateTime, formatNumber} from '../../format.js';
+import {formatDate, formatDateTime, formatNumber, topupMethod} from '../../format.js';
 
 const HOW = {prompt: 'Approve a prompt on your phone', code: 'Pay a code in the app', card: 'Card, on a secure page'};
 const KIND = {
@@ -207,7 +207,7 @@ const validCredits = computed(() => options.value && Number.isInteger(credits.va
 const price = computed(() => (options.value ? Math.round(credits.value * options.value.credit_price * 100) / 100 : 0));
 
 const money = (amount) => `${options.value ? options.value.currency : ''} ${Number(amount || 0).toFixed(2)}`.trim();
-const methodLabel = (id) => (options.value && options.value.methods.find((m) => m.id === id)?.label) || id;
+const methodLabel = (id) => (options.value && options.value.methods.find((m) => m.id === id)?.label) || topupMethod(id);
 const change = (tx) => tx.credits + tx.trial_credits;
 
 function choosePack(n) {
