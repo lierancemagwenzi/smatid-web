@@ -37,6 +37,18 @@ const MESSAGES = {
   webhook_url_not_public: 'The webhook address must be a public website, not a private or internal one.',
   invalid_webhook_url: 'That isn’t a valid web address.',
   auth_unavailable: 'We can’t sign you in right now. Please try again shortly.',
+  insufficient_credits: 'You don’t have enough credits for this check.',
+  module_disabled: 'This check is switched off for now. Contact Smatid if you need it.',
+  invalid_registration_number: 'That doesn’t look like a registration number. Use letters, numbers, / and - only.',
+  registry_unavailable: 'The CIPZ register isn’t answering right now. No credits were used; please try again shortly.',
+  registry_mismatch: 'The CIPZ register answered for a different number. No credits were used; please try again.',
+  screening_unavailable: 'Sanctions screening isn’t available right now. No credits were used; please try again shortly.',
+  name_or_first_and_last_name_required: 'Enter the person’s full name.',
+  birth_date_must_be_yyyy_mm_dd: 'Enter the date of birth as a date.',
+  type_must_be_person_or_company: 'Choose a person or a company.',
+  test_limit_reached: 'You’ve used all your free test sessions for the last 24 hours. Try again later.',
+  invalid_outcome: 'Choose a passed or failed result.',
+  billing_unavailable: 'We can’t check your credits right now. Please try again shortly.',
 };
 
 function messageFor(code, status, extra) {
@@ -94,4 +106,9 @@ export const portalApi = {
   team: () => request('GET', '/api/portal/team'),
   invite: (body) => request('POST', '/api/portal/team', {body}),
   removeUser: (id) => request('DELETE', `/api/portal/team/${id}`),
+  checkOptions: () => request('GET', '/api/portal/checks'),
+  createLivenessTest: (body) => request('POST', '/api/portal/liveness-tests', {body}),
+  livenessTest: (sessionId) => request('GET', `/api/portal/liveness-tests/${encodeURIComponent(sessionId)}`),
+  checkCompany: (number) => request('POST', '/api/portal/checks/company', {body: {number}}),
+  checkSanctions: (body) => request('POST', '/api/portal/checks/sanctions', {body}),
 };

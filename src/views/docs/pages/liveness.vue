@@ -62,6 +62,7 @@
     <tbody>
       <tr><td><code>status</code></td><td>Where the session is: see the table below.</td></tr>
       <tr><td><code>passed</code></td><td><code>true</code> only when a live person was confirmed. The one field to base a decision on.</td></tr>
+      <tr><td><code>test</code></td><td><code>true</code> for a free test session started from the portal’s Developers page. Never treat one as a real person’s check.</td></tr>
       <tr><td><code>attempts</code></td><td>Tries used so far (up to 3).</td></tr>
       <tr><td><code>failure_reason</code></td><td>Why it failed, when <code>status</code> is <code>failed</code>. See below.</td></tr>
       <tr><td><code>scores.real</code></td><td>The anti-spoof model’s average, 0 to 1 (higher is more likely a real face).</td></tr>
@@ -91,6 +92,15 @@
       <tr v-for="r in reasons" :key="r[0]"><td><code>{{ r[0] }}</code></td><td>{{ r[1] }}</td></tr>
     </tbody>
   </table>
+
+  <h2 id="testing">Testing</h2>
+  <p>
+    The client portal’s <strong>Developers</strong> page has free test sessions. <strong>Try it yourself</strong> opens a real check on the
+    hosted page; <strong>Send a passed result</strong> and <strong>Send a failed result</strong> finish at once, without a camera, so you
+    can test your webhook. A simulated result has <code>scores</code> and <code>steps</code> set to <code>null</code>, and a simulated
+    failure has the reason <code>simulated_failure</code>. Test sessions use no credits, don’t count as usage, and have
+    <code>"test": true</code>. There are 10 a day per account.
+  </p>
 
   <h2 id="photo">The face photo</h2>
   <EndpointLine method="GET" path="/api/kyc/liveness/:session_id/image" auth="Bearer token" />

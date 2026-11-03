@@ -59,6 +59,7 @@ const icon = (path) =>
 
 const nav = [
   {to: '/app', label: 'Dashboard', exact: true, icon: icon('<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>')},
+  {to: '/app/checks', label: 'Run a check', icon: icon('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M8 11l2 2 4-4"/>')},
   {to: '/app/credits', label: 'Credits & top-up', icon: icon('<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>')},
   {to: '/app/usage', label: 'Usage', icon: icon('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>')},
   {to: '/app/developers', label: 'Developers', icon: icon('<path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12"/>')},

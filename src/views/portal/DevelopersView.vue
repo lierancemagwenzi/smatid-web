@@ -53,6 +53,8 @@
       </div>
     </section>
 
+    <LivenessTester />
+
     <section class="card">
       <header class="card-header"><h2>Get started</h2></header>
       <div class="card-body">
@@ -79,6 +81,7 @@ import {onMounted, ref} from 'vue';
 import {portalApi} from '../../portal/api.js';
 import {isOwner, portalUpdate} from '../../portal/session.js';
 import ModalDialog from '../../components/ModalDialog.vue';
+import LivenessTester from '../../components/LivenessTester.vue';
 
 const dev = ref(null);
 const fresh = ref('');

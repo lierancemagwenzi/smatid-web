@@ -17,6 +17,7 @@ const LOOKS = {
   passed: {tone: 'ok', text: 'Passed'},
   failed: {tone: 'bad', text: 'Failed'},
   pending: {tone: '', text: 'Pending'},
+  started: {tone: '', text: 'In progress'},
   expired: {tone: 'warn', text: 'Expired'},
   error: {tone: 'bad', text: 'Error'},
 };

@@ -19,6 +19,7 @@ const routes = [
         meta: {requiresUser: true},
         children: [
             {path: '', name: 'portal-dashboard', component: () => import('./views/portal/DashboardView.vue'), meta: {title: 'Dashboard'}},
+            {path: 'checks', name: 'portal-checks', component: () => import('./views/portal/ChecksView.vue'), meta: {title: 'Run a check'}},
             {path: 'credits', name: 'portal-credits', component: () => import('./views/portal/CreditsView.vue'), meta: {title: 'Credits & top-up'}},
             {path: 'usage', name: 'portal-usage', component: () => import('./views/portal/UsageView.vue'), meta: {title: 'Usage'}},
             {path: 'developers', name: 'portal-developers', component: () => import('./views/portal/DevelopersView.vue'), meta: {title: 'Developers'}},
