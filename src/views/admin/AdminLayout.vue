@@ -55,6 +55,7 @@ const nav = [
   {to: '/admin/clients', label: 'Clients', icon: icon('<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 010 7M18 14.8c1.8.7 3 2.5 3.5 5.2"/>')},
   {to: '/admin/modules', label: 'Modules', icon: icon('<path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/>')},
   {to: '/admin/topups', label: 'Top-ups', icon: icon('<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/>')},
+  {to: '/admin/scans', label: 'Scans', icon: icon('<rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2.5"/><path d="M13 10h5M13 14h4"/>')},
   {to: '/admin/usage', label: 'Usage', icon: icon('<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>')},
 ];
 

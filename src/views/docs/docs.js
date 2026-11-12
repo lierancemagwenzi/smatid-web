@@ -9,6 +9,7 @@ export const SECTIONS = [
   {group: 'Checks', slug: 'company', title: 'Company registration'},
   {group: 'Checks', slug: 'sanctions', title: 'Sanctions & PEP'},
   {group: 'Checks', slug: 'liveness', title: 'Liveness'},
+  {group: 'Checks', slug: 'documents', title: 'Document proofreader'},
   {group: 'Getting results', slug: 'results', title: 'Overview'},
   {group: 'Getting results', slug: 'webhooks', title: 'Webhooks'},
   {group: 'Getting results', slug: 'redirects', title: 'Redirects & popups'},

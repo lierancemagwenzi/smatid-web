@@ -13,6 +13,7 @@
     "node": ">=20.19"
   },
   "dependencies": {
+    "pdfjs-dist": "4.10.38",
     "vue": "^3.5.44",
     "vue-router": "^5.4.0"
   },

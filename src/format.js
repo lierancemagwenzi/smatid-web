@@ -11,6 +11,7 @@ export const CHECKS = {
     company: 'Company registration',
     sanctions: 'Sanctions & PEP',
     liveness: 'Liveness',
+    document: 'Document proofreader',
 };
 export const checkName = (type) => CHECKS[type] || type;
 

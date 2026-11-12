@@ -33,6 +33,8 @@ const groups = [
   {name: 'Checks', endpoints: [
     ['GET', '/api/kyc/company/:number', 'Look up a company on the CIPZ register', '/docs/company'],
     ['POST', '/api/kyc/sanctions', 'Screen a person or company for sanctions and PEPs', '/docs/sanctions'],
+    ['POST', '/api/kyc/document', 'Proofread a PDF for signs of tampering', '/docs/documents'],
+    ['GET', '/api/kyc/document/:check_id', 'A document check you ran earlier', '/docs/documents'],
   ]},
   {name: 'Liveness', endpoints: [
     ['POST', '/api/kyc/liveness', 'Open a session and get the link for the person', '/docs/liveness#create'],

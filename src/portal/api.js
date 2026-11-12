@@ -49,6 +49,15 @@ const MESSAGES = {
   test_limit_reached: 'You’ve used all your free test sessions for the last 24 hours. Try again later.',
   invalid_outcome: 'Choose a passed or failed result.',
   billing_unavailable: 'We can’t check your credits right now. Please try again shortly.',
+  file_required: 'Choose a PDF to check.',
+  invalid_file: 'That file couldn’t be uploaded. Please try again.',
+  not_a_pdf: 'That isn’t a PDF. For now the proofreader checks PDF files only.',
+  file_too_large: 'That PDF is too big. The limit is 15 MB.',
+  pdf_encrypted: 'That PDF is password-protected. Remove the password and try again. No credits were used.',
+  pdf_unreadable: 'That PDF is damaged and couldn’t be read. No credits were used.',
+  too_many_pages: 'That PDF has too many pages (the limit is 50). No credits were used.',
+  pdf_timeout: 'That PDF took too long to read. No credits were used.',
+  document_check_failed: 'The document couldn’t be checked. No credits were used; please try again.',
 };
 
 function messageFor(code, status, extra) {
@@ -111,4 +120,5 @@ export const portalApi = {
   livenessTest: (sessionId) => request('GET', `/api/portal/liveness-tests/${encodeURIComponent(sessionId)}`),
   checkCompany: (number) => request('POST', '/api/portal/checks/company', {body: {number}}),
   checkSanctions: (body) => request('POST', '/api/portal/checks/sanctions', {body}),
+  checkDocument: (body) => request('POST', '/api/portal/checks/document', {body}),
 };
