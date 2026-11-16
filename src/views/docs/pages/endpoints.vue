@@ -18,10 +18,11 @@
   </template>
 
   <h2>The hosted page</h2>
-  <p>Not for your code to call: it’s the page the person opens.</p>
+  <p>Not for your code to call: the page the person opens, and the app’s own calls.</p>
   <table>
     <tbody>
       <tr><td><code>GET /liveness/:session_id</code></td><td>The liveness camera page. You get its full address as <code>url</code> when you open a session.</td></tr>
+      <tr><td><code>/api/verify/…</code></td><td>The calls the Smatid Verify app makes for a verification session. See <RouterLink to="/docs/smatid-app#app-api">The Smatid Verify app</RouterLink>.</td></tr>
     </tbody>
   </table>
 </template>
@@ -40,6 +41,24 @@ const groups = [
     ['POST', '/api/kyc/liveness', 'Open a session and get the link for the person', '/docs/liveness#create'],
     ['GET', '/api/kyc/liveness/:session_id', 'The session’s status and result', '/docs/liveness#result'],
     ['GET', '/api/kyc/liveness/:session_id/image', 'The straight-on face photo (JPEG)', '/docs/liveness#photo'],
+  ]},
+  {name: 'Passports', endpoints: [
+    ['POST', '/api/kyc/passport', 'Read a passport’s photo page (MRZ and picture)', '/docs/passport#scan'],
+    ['GET', '/api/kyc/passport/:scan_id', 'A passport scan, with its chip and face match', '/docs/passport#scan'],
+    ['GET', '/api/kyc/passport/:scan_id/image', 'The photo page picture (JPEG)', '/docs/passport#scan'],
+    ['POST', '/api/kyc/passport/:scan_id/chip', 'Check the passport chip’s files', '/docs/passport#chip'],
+    ['GET', '/api/kyc/passport/:scan_id/chip/photo', 'The chip’s photo (JPEG)', '/docs/passport#chip'],
+    ['POST', '/api/kyc/passport/:scan_id/face-match', 'Passport photo against a liveness check', '/docs/passport#face-match'],
+  ]},
+  {name: 'ID cards', endpoints: [
+    ['POST', '/api/kyc/id-card', 'Read a national ID card', '/docs/id-cards#scan'],
+    ['GET', '/api/kyc/id-card/:scan_id', 'An ID card scan, with its face match', '/docs/id-cards#scan'],
+    ['GET', '/api/kyc/id-card/:scan_id/image', 'The card picture (JPEG)', '/docs/id-cards#scan'],
+    ['POST', '/api/kyc/id-card/:scan_id/face-match', 'Card photo against a liveness check', '/docs/id-cards#face-match'],
+  ]},
+  {name: 'Verification sessions', endpoints: [
+    ['POST', '/api/kyc/verifications', 'Open a session for the Smatid Verify app', '/docs/verification#create'],
+    ['GET', '/api/kyc/verifications/:verification_id', 'The session’s status, outcome and results', '/docs/verification#result'],
   ]},
   {name: 'Webhooks', endpoints: [
     ['GET', '/api/kyc/webhook', 'Your default webhook address', '/docs/webhooks'],

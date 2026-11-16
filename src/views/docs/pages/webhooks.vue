@@ -35,7 +35,7 @@
     <thead><tr><th>Header</th><th>Value</th></tr></thead>
     <tbody>
       <tr><td><code>Content-Type</code></td><td><code>application/json</code></td></tr>
-      <tr><td><code>Smatid-Event</code></td><td><code>liveness.completed</code></td></tr>
+      <tr><td><code>Smatid-Event</code></td><td><code>liveness.completed</code>, or <code>verification.completed</code> for a <RouterLink to="/docs/verification#webhook">verification session</RouterLink></td></tr>
       <tr><td><code>Smatid-Signature</code></td><td><code>t=&lt;unix time&gt;,v1=&lt;signature&gt;</code></td></tr>
       <tr><td><code>User-Agent</code></td><td><code>Smatid-Webhooks/1.0</code></td></tr>
     </tbody>
