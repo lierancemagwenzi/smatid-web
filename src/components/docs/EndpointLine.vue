@@ -14,7 +14,7 @@ defineProps({method: {type: String, required: true}, path: {type: String, requir
 .endpoint { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); margin: 12px 0 16px; }
 .method { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px; letter-spacing: 0.03em; }
 .get { background: #e7f6ef; color: #047857; }
-.post { background: #e8efff; color: #1d4ed8; }
+.post { background: #f5edfd; color: #830bc9; }
 .put, .patch { background: #fdf3e2; color: #b45309; }
 .delete { background: #fdecec; color: #b91c1c; }
 code { font-size: 14px; color: var(--ink); word-break: break-all; }

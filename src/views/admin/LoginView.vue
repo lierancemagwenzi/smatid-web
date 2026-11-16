@@ -68,7 +68,7 @@ async function submit() {
   place-items: center;
   padding: 24px 16px;
   background:
-    radial-gradient(700px 400px at 80% 0%, rgb(29 78 216 / 0.12), transparent 60%),
+    radial-gradient(700px 400px at 80% 0%, rgb(131 11 201 / 0.12), transparent 60%),
     var(--bg);
 }
 .login-card { width: 100%; max-width: 400px; padding: 32px; display: grid; gap: 16px; }

@@ -34,5 +34,5 @@ const type = computed(() => (TABS.some((t) => t.type === route.query.type) ? rou
 .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; }
 .tab { padding: 10px 14px; text-decoration: none; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
 .tab:hover { color: var(--text, inherit); }
-.tab.active { color: var(--text, inherit); border-bottom-color: var(--brand, #2563eb); font-weight: 600; }
+.tab.active { color: var(--text, inherit); border-bottom-color: var(--brand, #830bc9); font-weight: 600; }
 </style>

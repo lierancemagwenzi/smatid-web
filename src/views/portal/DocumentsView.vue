@@ -342,9 +342,9 @@ async function show(f) {
 .box.high { border-color: #dc2626; background: rgba(220, 38, 38, 0.12); }
 .box.warning { border-color: #d97706; background: rgba(217, 119, 6, 0.12); }
 .box.info { border-color: #64748b; background: rgba(100, 116, 139, 0.1); }
-.box.active { box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.45); animation: pulse 1.2s ease-out 2; }
+.box.active { box-shadow: 0 0 0 4px rgba(131, 11, 201, 0.45); animation: pulse 1.2s ease-out 2; }
 .page-no { position: absolute; right: 8px; bottom: 6px; color: #64748b; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.6); } 100% { box-shadow: 0 0 0 12px rgba(37, 99, 235, 0); } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(131, 11, 201, 0.6); } 100% { box-shadow: 0 0 0 12px rgba(131, 11, 201, 0); } }
 
 .details { display: grid; gap: 18px; }
 .details h3 { font-size: 14px; margin: 0 0 8px; }

@@ -108,14 +108,14 @@ onMounted(async () => {
 .page { display: grid; gap: 20px; }
 .banner { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 14px 18px; border-radius: 12px; font-size: 14.5px; }
 .banner.ok { background: var(--ok-soft); color: #065f46; display: block; }
-.banner.info { background: var(--brand-soft); color: #1e3a8a; }
+.banner.info { background: var(--brand-soft); color: #2f1991; }
 .banner.warn { background: var(--warn-soft); color: #92400e; }
-.setup { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; border-color: #bfd0ff; flex-wrap: wrap; }
+.setup { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 22px; border-color: #dcc6ff; flex-wrap: wrap; }
 .setup h2 { font-size: 16px; margin-bottom: 4px; }
 .setup p { margin: 0; }
 .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 14px; }
 .stat { padding: 18px 20px; display: grid; gap: 4px; align-content: start; }
-.stat.hero { background: linear-gradient(135deg, #eef3ff, #ffffff); border-color: #c7d6ff; }
+.stat.hero { background: linear-gradient(135deg, #f5edfd, #ffffff); border-color: #e4d2ff; }
 .stat .btn { justify-self: start; margin-top: 8px; }
 .stat-label { font-size: 13px; color: var(--muted); font-weight: 600; }
 .stat-value { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }

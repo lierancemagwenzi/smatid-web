@@ -90,7 +90,7 @@ async function logout() {
 }
 .logo { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 600; font-size: 16px; padding: 4px 10px; }
 .logo:hover { text-decoration: none; }
-.logo b { color: #93b4ff; }
+.logo b { color: #c1b3ff; }
 nav { display: grid; gap: 2px; }
 .nav-item {
   display: flex;
@@ -103,7 +103,7 @@ nav { display: grid; gap: 2px; }
   font-weight: 500;
 }
 .nav-item:hover { background: rgb(255 255 255 / 0.06); color: #fff; text-decoration: none; }
-.nav-item.active { background: rgb(147 180 255 / 0.14); color: #fff; }
+.nav-item.active { background: rgb(193 179 255 / 0.14); color: #fff; }
 .sidebar-foot { margin-top: auto; }
 .sidebar-foot .nav-item { color: #94a3b8; }
 

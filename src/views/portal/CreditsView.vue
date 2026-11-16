@@ -284,7 +284,7 @@ onMounted(async () => {
 .page { display: grid; gap: 20px; }
 .balances { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 14px; }
 .bal { padding: 18px 20px; display: grid; gap: 2px; }
-.bal.main { background: linear-gradient(135deg, #eef3ff, #fff); border-color: #c7d6ff; }
+.bal.main { background: linear-gradient(135deg, #f5edfd, #fff); border-color: #e4d2ff; }
 .label { font-size: 13px; color: var(--muted); font-weight: 600; }
 .value { font-size: 34px; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .small-v { font-size: 26px; }

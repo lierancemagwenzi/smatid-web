@@ -215,7 +215,7 @@ async function save() {
 }
 .switch[aria-checked='true'] { background: var(--ok); }
 .switch:disabled { opacity: 0.6; cursor: wait; }
-.switch:focus-visible { outline: 3px solid rgb(29 78 216 / 0.3); outline-offset: 2px; }
+.switch:focus-visible { outline: 3px solid rgb(131 11 201 / 0.3); outline-offset: 2px; }
 .knob {
   position: absolute;
   top: 3px;

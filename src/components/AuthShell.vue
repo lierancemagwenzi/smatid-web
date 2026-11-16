@@ -27,8 +27,8 @@ defineProps({title: {type: String, required: true}, subtitle: {type: String, def
   gap: 18px;
   padding: 32px 16px;
   background:
-    radial-gradient(800px 420px at 85% -5%, rgb(29 78 216 / 0.14), transparent 60%),
-    radial-gradient(600px 360px at -10% 105%, rgb(13 148 136 / 0.10), transparent 60%),
+    radial-gradient(800px 420px at 85% -5%, rgb(131 11 201 / 0.14), transparent 60%),
+    radial-gradient(600px 360px at -10% 105%, rgb(47 25 145 / 0.10), transparent 60%),
     var(--bg);
 }
 .auth-card { width: 100%; max-width: 440px; padding: 32px; display: grid; gap: 16px; }

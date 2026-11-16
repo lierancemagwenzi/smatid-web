@@ -93,11 +93,11 @@ const go = (slug) => router.push(`/docs/${slug}`);
 
 <style scoped>
 .docs { min-height: 100vh; background: var(--surface); }
-.top { position: sticky; top: 0; z-index: 10; background: rgb(11 19 36 / 0.96); backdrop-filter: blur(8px); }
+.top { position: sticky; top: 0; z-index: 10; background: rgb(26 19 61 / 0.96); backdrop-filter: blur(8px); }
 .top-inner { max-width: 1280px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; gap: 20px; }
 .logo { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 600; }
 .logo:hover { text-decoration: none; }
-.logo b { color: #93b4ff; }
+.logo b { color: #c1b3ff; }
 .tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #cbd5e1; border: 1px solid rgb(255 255 255 / 0.2); border-radius: 6px; padding: 2px 6px; }
 .top-links { margin-left: auto; display: flex; align-items: center; gap: 20px; }
 .top-links a { color: #cbd5e1; font-size: 14px; font-weight: 500; }

@@ -53,6 +53,6 @@ const groups = [
 <style scoped>
 .m { font-size: 11.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px; }
 .get { background: #e7f6ef; color: #047857; }
-.post { background: #e8efff; color: #1d4ed8; }
+.post { background: #f5edfd; color: #830bc9; }
 .put { background: #fdf3e2; color: #b45309; }
 </style>

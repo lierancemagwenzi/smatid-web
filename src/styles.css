@@ -1,7 +1,7 @@
 :root {
-    --brand: #1d4ed8;
-    --brand-strong: #1e40af;
-    --brand-soft: #e8efff;
+    --brand: #830bc9;
+    --brand-strong: #6d09a8;
+    --brand-soft: #f5edfd;
     --ink: #0f172a;
     --ink-2: #334155;
     --muted: #64748b;
@@ -10,8 +10,8 @@
     --bg: #f6f8fb;
     --surface: #ffffff;
     --surface-2: #f1f5f9;
-    --night: #0b1324;
-    --night-2: #111c33;
+    --night: #1a133d;
+    --night-2: #251b52;
 
     --ok: #047857;
     --ok-soft: #e7f6ef;
@@ -19,11 +19,11 @@
     --warn-soft: #fdf3e2;
     --bad: #b91c1c;
     --bad-soft: #fdecec;
-    --info: #6d28d9;
-    --info-soft: #f1ebfe;
+    --info: #1d4ed8;
+    --info-soft: #e8efff;
     --neutral-soft: #eef2f6;
 
-    --chart-company: #1d4ed8;
+    --chart-company: #830bc9;
     --chart-sanctions: #0d9488;
     --chart-liveness: #c2410c;
 
@@ -31,7 +31,7 @@
     --radius-lg: 14px;
     --shadow: 0 1px 2px rgb(15 23 42 / 0.05), 0 1px 3px rgb(15 23 42 / 0.06);
     --shadow-lg: 0 20px 45px -15px rgb(15 23 42 / 0.25);
-    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font: 'Be Vietnam Pro', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     --mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
 }
 
@@ -75,7 +75,7 @@ code, pre, .mono { font-family: var(--mono); font-size: 0.86em; }
 }
 .btn:hover { text-decoration: none; }
 .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-.btn:focus-visible, .input:focus-visible, .select:focus-visible { outline: 3px solid rgb(29 78 216 / 0.3); outline-offset: 1px; }
+.btn:focus-visible, .input:focus-visible, .select:focus-visible { outline: 3px solid rgb(131 11 201 / 0.3); outline-offset: 1px; }
 .btn-primary { background: var(--brand); color: #fff; }
 .btn-primary:hover:not(:disabled) { background: var(--brand-strong); }
 .btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }

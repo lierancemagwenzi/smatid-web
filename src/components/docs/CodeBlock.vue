@@ -63,15 +63,15 @@ async function copy() {
 </script>
 
 <style scoped>
-.code { border-radius: 12px; overflow: hidden; background: #0b1324; border: 1px solid #1e293b; margin: 14px 0 20px; }
-.code-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 12px; border-bottom: 1px solid #1e293b; }
+.code { border-radius: 12px; overflow: hidden; background: #1a133d; border: 1px solid #2e2566; margin: 14px 0 20px; }
+.code-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 8px 6px 12px; border-bottom: 1px solid #2e2566; }
 .code-tabs { display: flex; gap: 2px; flex-wrap: wrap; }
 .code-tabs button, .copy {
   border: 0; background: transparent; color: #94a3b8; font: inherit; font-size: 12.5px; font-weight: 600;
   padding: 5px 10px; border-radius: 6px; cursor: pointer;
 }
 .code-tabs button:hover, .copy:hover { color: #e2e8f0; background: rgb(255 255 255 / 0.06); }
-.code-tabs button.on { color: #fff; background: rgb(147 180 255 / 0.18); }
+.code-tabs button.on { color: #fff; background: rgb(193 179 255 / 0.18); }
 .code-label { color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 pre { margin: 0; padding: 16px 18px; overflow-x: auto; color: #e2e8f0; font-size: 13px; line-height: 1.65; }
 code { font-family: var(--mono); font-variant-ligatures: none; font-feature-settings: 'liga' 0, 'calt' 0; }
